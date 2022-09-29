@@ -66,39 +66,52 @@ function colors(rating){
     }
 }
 
-const onSearch = (e) => {
-    let search_value = (e.target.value).toLowerCase().trim();
-    // console.log(search_value);
-    let temp = [];
-    for (let i = 1; i <= 2; i++) {
-        let search_url = `${base_url}&page=${i}`
-        getCall(search_url)
-            .then(data => {
-               temp.push(...data.results);
-            })
-            .catch(err => console.log(err));
-    }
-    // console.log(temp);
-    // console.log(temp.find(ele => ele==search_value));
-    
-    // -----------------not working
-    let filter_arr = temp.filter(ele => {
-        ele.title.toLowerCase().includes(search_value);
-        // ele.original_title == 'Prey';
-        console.log(ele);
-    });
-    console.log(filter_arr);
-   
-}
-
 const onBtnClick = (e) => {
     let page_no = pageInput.value;
-    // console.log(page_no);
+    localStorage.setItem("page_no", page_no);
     
     let page_url = `${base_url}&page=${page_no}`;
     getCall(page_url)
         .then(data => templating(data.results))
         .catch(err => alert("page number does not exist."));
+}
+
+const onSearch = (e) => {
+    let search_value = (e.target.value).toLowerCase().trim();
+    // for single page search 
+    let search_on_page = localStorage.getItem("page_no");
+
+    let search_url = `${base_url}&page=${search_on_page}`;
+
+    getCall(search_url)
+        .then(data => {
+            let arr = data.results.filter(ele => ele.title.toLowerCase().includes(search_value));
+            templating(arr);
+        })
+        .catch(err => console.log(arr));
+
+
+    // let temp = [];
+    // for (let i = 1; i <= 2; i++) {
+    //     let search_url2 = `${base_url}&page=${i}`
+    //     getCall(search_url2)
+    //         .then(data => {
+    //            temp.push(...data.results);
+    //         })
+    //         .catch(err => console.log(err));
+    // }
+    // // console.log(temp);
+    // // console.log(temp.find(ele => ele==search_value));
+    
+    // // -----------------not working
+    // let filter_arr = temp.filter(ele => {
+    //     ele.title.toLowerCase().includes(search_value);
+    //     // ele.original_title == 'Prey';
+    //     console.log(ele);
+    // });
+    // console.log(filter_arr);
+
+   
 }
 
 getCall(base_url)
