@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMDB-with API</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <h2>movie archive</h2>
+        <span>for all the movie lovers</span>
+    </header>
+    <main>
+        <section class="search">
+            <div class="container">
+                <div class="row">
+                    <div class="form-group-search">
+                        <input type="text" placeholder="Search movie name here..." id="searchInput">
+                    </div>
+                    <div class="form-group-page">
+                        <label for="page">go to page: </label>
+                        <input type="text" pattern="[0-9]*" id="pageInput" placeholder="1">
+                        <input type="button" value="go" id="btn-go">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="gallery">
+            <div class="container">
+                <div class="row" id="movies">
+                    <!-- <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <figure class="poster">
+                                    <img src="https://image.tmdb.org/t/p/w1280/wSqAXL1EHVJ3MOnJzMhUngc8gFs.jpg" alt="title" class="img-fluid">
+                                    <figcaption class="movie-content">
+                                        <h3 class="title">title</h3>
+                                        <span class="rating">rt</span>
+                                    </figcaption>
+                                    <div class="movie-info">
+                                        <h4 class="overview">overview</h4>
+                                        <p class="overview-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ab ipsam, ipsa voluptatibus quo soluta.</p>
+                                    </div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p class="footer-heading">all rights are reserved <span class="copyright">copyright 2022</span></p>
+    </footer>
+    <script src="./assets/js/app.js"></script>
+</body>
+</html>
