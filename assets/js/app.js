@@ -1,6 +1,10 @@
 
-
-const base_url = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c';
+// all declarations
+// const apiKey = `e9ddb24aed6d48c4342303aba5269e28`;
+const apiKey = `3fd2be6f0c70a2a598f084ddfb75487c`;
+const base_url = 'https://api.themoviedb.org/3';
+const api_page_url = `/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`;
+const api_search_url = `/search/movie?api_key=${apiKey}&query=`;
 const img_path = 'https://image.tmdb.org/t/p/w1280';
 
 const movies = document.getElementById("movies");
@@ -12,8 +16,8 @@ const btn = document.getElementById("btn-go");
 
 
 // functions
-
-async function getCall(url){
+// api call function: "GET"
+async function getApiCall(url){
     try{
         let response = await fetch(url, {
             method: "GET",
@@ -53,7 +57,29 @@ const templating = (arr) => {
     });
 }
 
-// to give color range for ratings
+// page button: event callback
+const onBtnClick = (e) => {
+    let page_no = pageInput.value;
+    let page_url = `${api_page_url}&page=${page_no}`;
+
+    getApiCall(base_url + page_url)
+        .then(data => templating(data.results))
+        .catch(err => alert("page number does not exist."));
+}
+
+// search input: event callback
+const onSearch = (e) => {
+    let search_value = (e.target.value).toLowerCase().trim();
+    let search_url = `${api_search_url}${search_value}`;
+
+    if(e.key === "Enter"){
+        getApiCall(base_url + search_url)
+        .then(data => templating(data.results))
+        .catch(err => alert('invalid query.'));
+    }
+}
+
+// to give color for ratings
 function colors(rating){
     if(rating >= 8){
         return "green"
@@ -66,61 +92,14 @@ function colors(rating){
     }
 }
 
-const onBtnClick = (e) => {
-    let page_no = pageInput.value;
-    localStorage.setItem("page_no", page_no);
-    
-    let page_url = `${base_url}&page=${page_no}`;
-    getCall(page_url)
-        .then(data => templating(data.results))
-        .catch(err => alert("page number does not exist."));
-}
-
-const onSearch = (e) => {
-    let search_value = (e.target.value).toLowerCase().trim();
-    // for single page search 
-    let search_on_page = localStorage.getItem("page_no");
-
-    let search_url = `${base_url}&page=${search_on_page}`;
-
-    getCall(search_url)
-        .then(data => {
-            let arr = data.results.filter(ele => ele.title.toLowerCase().includes(search_value));
-            templating(arr);
-        })
-        .catch(err => console.log(arr));
-
-
-    // let temp = [];
-    // for (let i = 1; i <= 2; i++) {
-    //     let search_url2 = `${base_url}&page=${i}`
-    //     getCall(search_url2)
-    //         .then(data => {
-    //            temp.push(...data.results);
-    //         })
-    //         .catch(err => console.log(err));
-    // }
-    // // console.log(temp);
-    // // console.log(temp.find(ele => ele==search_value));
-    
-    // // -----------------not working
-    // let filter_arr = temp.filter(ele => {
-    //     ele.title.toLowerCase().includes(search_value);
-    //     // ele.original_title == 'Prey';
-    //     console.log(ele);
-    // });
-    // console.log(filter_arr);
-
-   
-}
-
-getCall(base_url)
+// main page api call
+getApiCall(base_url + api_page_url)
     .then(data => {
         templating(data.results);
         searchInput.value = '';
         pageInput.value = '';
     })
-    .catch(err => console.log("error during data."))
+    .catch(err => console.log("error during data fetch."))
 
 // events 
 
@@ -128,4 +107,5 @@ btn.addEventListener("click", onBtnClick);
 searchInput.addEventListener("keyup", onSearch);
 
 
-// https://developers.themoviedb.org/3/discover/movie-discover   ---------- search query pattern
+
+
