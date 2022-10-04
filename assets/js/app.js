@@ -1,6 +1,6 @@
 
 // all declarations
-// const apiKey = `e9ddb24aed6d48c4342303aba5269e28`;
+
 const apiKey = `3fd2be6f0c70a2a598f084ddfb75487c`;
 const base_url = 'https://api.themoviedb.org/3';
 const api_page_url = `/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`;
